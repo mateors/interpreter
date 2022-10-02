@@ -87,7 +87,7 @@ func (i *Identifier) String() string {
 
 type ExpressionStatement struct {
 	Token      token.Token
-	Experssion Expression
+	Expression Expression
 }
 
 func (es *ExpressionStatement) statementNode() {
@@ -99,8 +99,8 @@ func (es *ExpressionStatement) TokenLiteral() string {
 
 func (es *ExpressionStatement) String() string {
 
-	if es.Experssion != nil {
-		return es.Experssion.String()
+	if es.Expression != nil {
+		return es.Expression.String()
 	}
 	return ""
 }

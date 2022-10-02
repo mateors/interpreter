@@ -29,6 +29,8 @@ func New(l *lexer.Lexer) *Parser {
 
 	p := &Parser{lexer: l}
 	p.prefixParseFns = make(map[token.TokenType]prefixParseFunction)
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
+
 	p.infixParseFns = make(map[token.TokenType]infixParseFunction)
 
 	p.NextToken()
@@ -50,6 +52,11 @@ func (p *Parser) NextToken() {
 
 	p.curToken = p.peekToken
 	p.peekToken = p.lexer.NextToken()
+}
+
+func (p *Parser) parseIdentifier() ast.Expression {
+	//fmt.Println("parseIdentifier", p.curToken, p.curToken.Literal)
+	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 }
 
 func (p *Parser) ParseProgram() *ast.Program {
@@ -86,8 +93,7 @@ func (p *Parser) parseStatement() ast.Statement {
 
 	default:
 		//fmt.Println("parseStatement Nill", p.curToken, p.curToken.Type, p.curToken.Literal)
-		p.parseExpressionStatement()
-		return nil
+		return p.parseExpressionStatement()
 	}
 
 }
@@ -108,14 +114,24 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 
 	expStm := &ast.ExpressionStatement{}
 	expStm.Token = p.curToken
-	expStm.Experssion = p.parseExpression(LOWEST)
+	expStm.Expression = p.parseExpression(LOWEST)
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.NextToken()
+	}
 	return expStm
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 
-	//exp := &ast.Experssion{}
-	return nil
+	//fmt.Println("parseExpression", p.curToken.Type)
+	prefixFunction := p.prefixParseFns[p.curToken.Type]
+	//fmt.Println(prefixFunction)
+	if prefixFunction == nil {
+		return nil
+	}
+	leftExp := prefixFunction()
+
+	return leftExp
 }
 
 // func (p *Parser) parseLetStatement() *ast.LetStatement {

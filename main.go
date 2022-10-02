@@ -7,9 +7,9 @@ import (
 	"mylexer/parser"
 )
 
-func LetStatementManual() {
+func LetOrExpressStatementManual() {
 
-	input := "let x = 500 ;" //type Table{ Column1\nColumn2\nColumn3}
+	input := "foobar;" //let x = myfunc ; type Table{ Column1\nColumn2\nColumn3}
 	l := lexer.New(input)
 	// for {
 	// 	tok := l.NextToken()
@@ -25,11 +25,17 @@ func LetStatementManual() {
 	for i, stm := range prog.Statements {
 
 		letstm, ok := stm.(*ast.LetStatement)
-		if letstm == nil {
+		if ok {
+			fmt.Println(i, ok, letstm)
 			return
 		}
-		//fmt.Println(i, ok, letstm, stm.TokenLiteral(), letstm.Name.TokenLiteral(), letstm.Token)
-		fmt.Println(i, ok, letstm)
+
+		stmt, ok := stm.(*ast.ExpressionStatement)
+		if ok {
+			ident, ok := stmt.Expression.(*ast.Identifier)
+			fmt.Println(i, ok, ident)
+		}
+
 	}
 
 }
@@ -69,8 +75,8 @@ func main() {
 	//step-1
 	//read the input
 	//read character by character
-	LetStatementManual()
-	ReturnStatementManul()
+	LetOrExpressStatementManual()
+	//ReturnStatementManul()
 
 }
 
