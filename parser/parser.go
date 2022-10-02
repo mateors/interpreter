@@ -74,6 +74,7 @@ func (p *Parser) parseStatement() ast.Statement {
 }
 
 func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
+
 	stmt := &ast.ReturnStatement{Token: p.curToken}
 	p.NextToken()
 	// TODO: We're skipping the expressions until we

@@ -7,17 +7,38 @@ import (
 	"mylexer/parser"
 )
 
-func main() {
+func LetStatementManual() {
 
-	//step-1
-	//read the input
-	//read character by character
+	input := "let x = 500 ;" //type Table{ Column1\nColumn2\nColumn3}
+	l := lexer.New(input)
+	// for {
+	// 	tok := l.NextToken()
+	// 	if tok.Type == token.EOF {
+	// 		break
+	// 	}
+	// 	fmt.Println(tok)
+	// }
+	//os.Exit(1)
+	p := parser.New(l)
+	prog := p.ParseProgram()
+	fmt.Println(len(prog.Statements))
+	for i, stm := range prog.Statements {
 
-	//input := "let x = 500 ;" //type Table{ Column1\nColumn2\nColumn3}
+		letstm, ok := stm.(*ast.LetStatement)
+		if letstm == nil {
+			return
+		}
+		//fmt.Println(i, ok, letstm, stm.TokenLiteral(), letstm.Name.TokenLiteral(), letstm.Token)
+		fmt.Println(i, ok, letstm)
+	}
+
+}
+
+func ReturnStatementManul() {
+
 	input := `	
-	let myx = another;
+	return 5; 
 	`
-	//myLexer(input)
 	l := lexer.New(input)
 	// for {
 	// 	tok := l.NextToken()
@@ -31,25 +52,25 @@ func main() {
 	p := parser.New(l)
 
 	prog := p.ParseProgram()
-	//fmt.Println(len(prog.Statements))
+	fmt.Println(len(prog.Statements))
 	for i, stm := range prog.Statements {
-		letstm, ok := stm.(*ast.LetStatement)
+
+		letstm, ok := stm.(*ast.ReturnStatement)
 		if letstm == nil {
 			return
 		}
 		//fmt.Println(i, ok, letstm, stm.TokenLiteral(), letstm.Name.TokenLiteral(), letstm.Token)
 		fmt.Println(i, ok, letstm)
 	}
+}
 
-	// i := 0
-	// for {
-	// 	tok := l.NextToken()
-	// 	if tok.Type == token.EOF {
-	// 		break
-	// 	}
-	// 	fmt.Println(i, "->", tok.Type, tok.Literal)
-	// 	i++
-	// }
+func main() {
+
+	//step-1
+	//read the input
+	//read character by character
+
+	ReturnStatementManul()
 
 }
 
