@@ -12,19 +12,38 @@ const (
 	LOWEST
 )
 
+type prefixParseFunction func() ast.Expression
+
+type infixParseFunction func(ast.Expression) ast.Expression
+
 type Parser struct {
-	lexer     *lexer.Lexer
-	curToken  token.Token //position
-	peekToken token.Token //read position
-	errors    []string
+	lexer          *lexer.Lexer
+	curToken       token.Token //position
+	peekToken      token.Token //read position
+	errors         []string
+	prefixParseFns map[token.TokenType]prefixParseFunction
+	infixParseFns  map[token.TokenType]infixParseFunction
 }
 
 func New(l *lexer.Lexer) *Parser {
 
 	p := &Parser{lexer: l}
+	p.prefixParseFns = make(map[token.TokenType]prefixParseFunction)
+	p.infixParseFns = make(map[token.TokenType]infixParseFunction)
+
 	p.NextToken()
 	p.NextToken()
 	return p
+}
+
+func (p *Parser) registerPrefix(key token.TokenType, pfn prefixParseFunction) {
+
+	p.prefixParseFns[key] = pfn
+}
+
+func (p *Parser) registerInfix(key token.TokenType, ifn infixParseFunction) {
+
+	p.infixParseFns[key] = ifn
 }
 
 func (p *Parser) NextToken() {
@@ -67,7 +86,7 @@ func (p *Parser) parseStatement() ast.Statement {
 
 	default:
 		//fmt.Println("parseStatement Nill", p.curToken, p.curToken.Type, p.curToken.Literal)
-		//p.parseExpressionStatement()
+		p.parseExpressionStatement()
 		return nil
 	}
 
