@@ -69,7 +69,7 @@ func main() {
 	//step-1
 	//read the input
 	//read character by character
-
+	LetStatementManual()
 	ReturnStatementManul()
 
 }
