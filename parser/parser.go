@@ -125,8 +125,7 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 
 func (p *Parser) parseLetStatement() *ast.LetStatement {
 
-	fmt.Println("parseLetStatement:", p.curToken)
-
+	//fmt.Println("parseLetStatement:", p.curToken)
 	stmt := &ast.LetStatement{Token: p.curToken}
 	if !p.expectPeek(token.IDENT) {
 		return nil
@@ -144,7 +143,7 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	// TODO: We're skipping the expressions until we
 	// encounter a semicolon
 	if p.peekTokenIs(token.SEMICOLON) {
-		fmt.Println("5>", p.curToken)
+		//fmt.Println("5>", p.curToken)
 		p.NextToken()
 	}
 	return stmt
@@ -157,15 +156,6 @@ func (p *Parser) curTokenIs(t token.TokenType) bool {
 func (p *Parser) peekTokenIs(t token.TokenType) bool {
 	return p.peekToken.Type == t
 }
-
-// func (p *Parser) expectPeek(t token.TokenType) bool {
-// 	if p.peekTokenIs(t) {
-// 		p.NextToken()
-// 		return true
-// 	} else {
-// 		return false
-// 	}
-// }
 
 func (p *Parser) peekError(t token.TokenType) {
 	msg := fmt.Sprintf("expected next token to be %v, got %v instead", t, p.peekToken.Type)

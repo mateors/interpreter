@@ -31,7 +31,7 @@ func main() {
 	p := parser.New(l)
 
 	prog := p.ParseProgram()
-	fmt.Println(len(prog.Statements))
+	//fmt.Println(len(prog.Statements))
 	for i, stm := range prog.Statements {
 		letstm, ok := stm.(*ast.LetStatement)
 		if letstm == nil {
@@ -39,7 +39,6 @@ func main() {
 		}
 		//fmt.Println(i, ok, letstm, stm.TokenLiteral(), letstm.Name.TokenLiteral(), letstm.Token)
 		fmt.Println(i, ok, letstm)
-
 	}
 
 	// i := 0
