@@ -20,6 +20,17 @@ const (
 
 )
 
+var precedences = map[token.TokenType]int{
+	token.EQ:       EQUALS,
+	token.NOTEQ:    EQUALS,
+	token.LT:       LESSGREATER,
+	token.GT:       LESSGREATER,
+	token.PLUS:     SUM,
+	token.MINUS:    SUM,
+	token.SLASH:    PRODUCT,
+	token.ASTERISK: PRODUCT,
+}
+
 type prefixParseFunction func() ast.Expression
 
 type infixParseFunction func(ast.Expression) ast.Expression
@@ -159,9 +170,9 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 
-	fmt.Println("parseExpression", p.curToken.Type)
+	//fmt.Println("parseExpression", p.curToken.Type)
 	prefixFunction := p.prefixParseFns[p.curToken.Type]
-	fmt.Println(prefixFunction)
+	//fmt.Println(prefixFunction)
 	if prefixFunction == nil {
 
 		fmt.Println(">>", p.curToken.Literal)
@@ -254,4 +265,18 @@ func (p *Parser) Errors() []string {
 func (p *Parser) noPrefixParseFnError(t token.TokenType) {
 	msg := fmt.Sprintf("no prefix parse function for %v found", t)
 	p.errors = append(p.errors, msg)
+}
+
+func (p *Parser) peekPrecedence() int {
+	if pre, ok := precedences[p.peekToken.Type]; ok {
+		return pre
+	}
+	return LOWEST
+}
+
+func (p *Parser) currentPrecedence() int {
+	if pre, ok := precedences[p.curToken.Type]; ok {
+		return pre
+	}
+	return LOWEST
 }
