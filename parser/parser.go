@@ -150,6 +150,7 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefixFunction := p.prefixParseFns[p.curToken.Type]
 	//fmt.Println(prefixFunction)
 	if prefixFunction == nil {
+		p.noPrefixParseFnError(p.curToken.Type)
 		return nil
 	}
 	leftExp := prefixFunction()
@@ -233,4 +234,9 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 
 func (p *Parser) Errors() []string {
 	return p.errors
+}
+
+func (p *Parser) noPrefixParseFnError(t token.TokenType) {
+	msg := fmt.Sprintf("no prefix parse function for %v found", t)
+	p.errors = append(p.errors, msg)
 }
