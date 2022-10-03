@@ -89,7 +89,6 @@ func (l *Lexer) NextToken() token.Token {
 			digit := l.integar()
 			tok.Literal = digit
 			tok.Type = token.INTEGAR
-			//fmt.Println(digit)
 			return tok
 
 		} else {
@@ -123,7 +122,8 @@ func (l *Lexer) integar() string {
 	for isDigit(l.chr) {
 		l.readChar()
 	}
-	return l.input[position:l.currentRead]
+	//fmt.Println(position, l.read, l.currentRead)
+	return l.input[position:l.read]
 }
 
 func isLetter(ch byte) bool {

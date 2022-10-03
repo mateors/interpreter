@@ -54,3 +54,15 @@ Students I am going to write a brand new interpreter in golang from scratch. If 
 * result // => true
 
 Looking at all these different forms of expressions it becomes clear that we need a really good approach to parse them correctly and in an understandable and extendable way. And that is where `Vaughan Pratt` comes in.
+
+
+## Pratt Parser
+
+### Integer Literals
+Integer literals are expressions. The value they produce is the integer itself.
+
+imagine in which places integer literals can occur to understand why they are expressions:
+
+* let x = 5;
+* add(5, 10);
+* 5 + 5 + 5;

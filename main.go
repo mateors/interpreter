@@ -70,13 +70,43 @@ func ReturnStatementManul() {
 	}
 }
 
+func IntegerLiteralExpressionManul() {
+
+	input := " 5; "
+	l := lexer.New(input)
+	// for {
+	// 	tok := l.NextToken()
+	// 	if tok.Type == token.EOF {
+	// 		break
+	// 	}
+	// 	fmt.Println(">>", tok.Type, tok.Literal, len(tok.Literal))
+	// }
+	// os.Exit(1)
+
+	p := parser.New(l)
+	prog := p.ParseProgram()
+	fmt.Println(len(prog.Statements), p.Errors())
+	for i, stm := range prog.Statements {
+
+		expStm, ok := stm.(*ast.ExpressionStatement)
+		if ok {
+			literal, ok := expStm.Expression.(*ast.IntegerLiteral)
+			fmt.Println(i, ok, literal.Value)
+		}
+		if expStm == nil {
+			return
+		}
+	}
+}
+
 func main() {
 
 	//step-1
 	//read the input
 	//read character by character
-	LetOrExpressStatementManual()
+	//LetOrExpressStatementManual()
 	//ReturnStatementManul()
+	IntegerLiteralExpressionManul()
 
 }
 

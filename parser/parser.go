@@ -5,6 +5,7 @@ import (
 	"mylexer/ast"
 	"mylexer/lexer"
 	"mylexer/token"
+	"strconv"
 )
 
 const (
@@ -37,12 +38,27 @@ func New(l *lexer.Lexer) *Parser {
 	p := &Parser{lexer: l}
 	p.prefixParseFns = make(map[token.TokenType]prefixParseFunction)
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
+	p.registerPrefix(token.INTEGAR, p.parseIntegerLiteral)
 
 	p.infixParseFns = make(map[token.TokenType]infixParseFunction)
 
 	p.NextToken()
 	p.NextToken()
 	return p
+}
+
+func (p *Parser) parseIntegerLiteral() ast.Expression {
+
+	//fmt.Println(p.curToken)
+	str := p.curToken.Literal
+	intval, err := strconv.ParseInt(str, 0, 64)
+	if err != nil {
+		//fmt.Println(err)
+		emsg := fmt.Sprintf("unable to parse %v as integer", str)
+		p.errors = append(p.errors, emsg)
+		return nil
+	}
+	return &ast.IntegerLiteral{Token: p.curToken, Value: intval}
 }
 
 func (p *Parser) registerPrefix(key token.TokenType, pfn prefixParseFunction) {
