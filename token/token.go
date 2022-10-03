@@ -9,12 +9,13 @@ const (
 	LET
 	RETURN
 	IDENT
-	INTEGAR
-	SEMICOLON
-	PLUS
-	MINUS
-	ASTERISK
-	SLASH
+	INTEGAR   //digit
+	SEMICOLON //;
+	PLUS      //+
+	MINUS     //-
+	ASTERISK  //*
+	SLASH     //
+	BANG      //!
 	EOF
 )
 
