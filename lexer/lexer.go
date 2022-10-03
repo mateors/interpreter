@@ -22,11 +22,9 @@ func New(in string) *Lexer {
 func (l *Lexer) readChar() {
 	if l.currentRead >= len(l.input) {
 		l.chr = 0
-		return
+	} else {
+		l.chr = l.input[l.currentRead]
 	}
-
-	//fmt.Println(string(l.chr), l.chr)
-	l.chr = l.input[l.currentRead]
 	l.read = l.currentRead
 	l.currentRead += 1
 }
@@ -94,7 +92,7 @@ func (l *Lexer) NextToken() token.Token {
 	//tok = token.Token{Type: token.NEWLINE, Literal: string(l.chr)}
 
 	case 0:
-		tok = token.Token{Type: token.EOF, Literal: string(l.chr)}
+		tok = token.Token{Type: token.EOF, Literal: ""}
 
 	default:
 
@@ -157,7 +155,6 @@ func (l *Lexer) integar() string {
 	for isDigit(l.chr) {
 		l.readChar()
 	}
-	//fmt.Println(position, l.read, l.currentRead)
 	return l.input[position:l.read]
 }
 

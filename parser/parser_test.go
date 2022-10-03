@@ -236,6 +236,7 @@ func TestParsingInfixExpressions(t *testing.T) {
 		p := New(l)
 		program := p.ParseProgram()
 		checkParserErrors(t, p)
+		
 		if len(program.Statements) != 1 {
 			t.Fatalf("program.Statements does not contain %d statements. got=%d\n", 1, len(program.Statements))
 		}

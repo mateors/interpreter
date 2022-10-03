@@ -195,13 +195,25 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefixFunction := p.prefixParseFns[p.curToken.Type]
 	//fmt.Println(prefixFunction)
 	if prefixFunction == nil {
-
 		fmt.Println(">>", p.curToken.Literal)
 		p.noPrefixParseFnError(p.curToken.Type)
 		return nil
 	}
 	leftExp := prefixFunction()
 
+	//fmt.Println(p.peekToken, p.peekTokenIs(token.SEMICOLON), precedence < p.peekPrecedence())
+	for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
+		fmt.Println(p.peekToken, p.peekTokenIs(token.SEMICOLON), precedence < p.peekPrecedence())
+
+		infix := p.infixParseFns[p.peekToken.Type]
+		if infix == nil {
+			return leftExp
+		}
+
+		p.NextToken()
+		leftExp = infix(leftExp)
+
+	}
 	return leftExp
 }
 
