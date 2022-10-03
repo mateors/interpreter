@@ -54,10 +54,31 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.INTEGAR, p.parseIntegerLiteral)
 
 	p.infixParseFns = make(map[token.TokenType]infixParseFunction)
+	p.registerInfix(token.PLUS, p.parseInfixExpression)
+	p.registerInfix(token.MINUS, p.parseInfixExpression)
+	p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+	p.registerInfix(token.SLASH, p.parseInfixExpression)
+	p.registerInfix(token.EQ, p.parseInfixExpression)
+	p.registerInfix(token.NOTEQ, p.parseInfixExpression)
+	p.registerInfix(token.LT, p.parseInfixExpression)
+	p.registerInfix(token.GT, p.parseInfixExpression)
 
 	p.NextToken()
 	p.NextToken()
 	return p
+}
+
+func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
+
+	iexp := &ast.InfixExpression{}
+	iexp.Token = p.curToken
+	iexp.Operator = p.curToken.Literal
+	iexp.Left = left
+
+	precedence := p.currentPrecedence()
+	p.NextToken()
+	iexp.Right = p.parseExpression(precedence)
+	return iexp
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
