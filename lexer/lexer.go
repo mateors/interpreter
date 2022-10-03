@@ -52,6 +52,9 @@ func (l *Lexer) NextToken() token.Token {
 	case '+':
 		tok = token.Token{Type: token.PLUS, Literal: string(l.chr)}
 
+	case '-':
+		tok = token.Token{Type: token.MINUS, Literal: string(l.chr)}
+
 	case '!':
 		tok = token.Token{Type: token.BANG, Literal: string(l.chr)}
 
