@@ -15,6 +15,8 @@ const (
 	MINUS     //-
 	ASTERISK  //*
 	SLASH     //
+	GT        //>
+	LT        //<
 	BANG      //!
 	EOF
 )

@@ -5,8 +5,8 @@ import (
 	"mylexer/ast"
 	"mylexer/lexer"
 	"mylexer/parser"
-	//"mylexer/token"
-	//"os"
+	"mylexer/token"
+	"os"
 )
 
 func LetOrExpressStatementManual() {
@@ -74,16 +74,16 @@ func ReturnStatementManul() {
 
 func IntegerLiteralExpressionManul() {
 
-	input := " -15;"
+	input := "5 == 5;"
 	l := lexer.New(input)
-	// for {
-	// 	tok := l.NextToken()
-	// 	if tok.Type == token.EOF {
-	// 		break
-	// 	}
-	// 	fmt.Println(">>", tok.Type, tok.Literal, len(tok.Literal))
-	// }
-	// os.Exit(1)
+	for {
+		tok := l.NextToken()
+		if tok.Type == token.EOF {
+			break
+		}
+		fmt.Println(">>", tok.Type, tok.Literal, len(tok.Literal))
+	}
+	os.Exit(1)
 
 	p := parser.New(l)
 	prog := p.ParseProgram()
