@@ -66,3 +66,15 @@ imagine in which places integer literals can occur to understand why they are ex
 * let x = 5;
 * add(5, 10);
 * 5 + 5 + 5;
+
+### Prefix Operator | Prefix expressions
+* -5;
+* !foobar;
+* 5 + -10;
+
+#### Prefix operator structure:
+> `<prefix operator><expression>;`
+
+Any expression can follow a prefix operator as operand.
+* `!isGreaterThanZero(2);`
+* `5 + -add(5, 5);`
