@@ -79,6 +79,7 @@ func (l *Lexer) NextToken() token.Token {
 
 		if l.peekChar() == '=' {
 			ch := l.chr
+			l.readChar()
 			literal := string(ch) + string(l.chr)
 			tok = token.Token{Type: token.NOTEQ, Literal: literal}
 

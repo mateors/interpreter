@@ -74,7 +74,7 @@ func ReturnStatementManul() {
 
 func IntegerLiteralExpressionManul() {
 
-	input := "5 == 5;"
+	input := "5 != 5;"
 	l := lexer.New(input)
 	for {
 		tok := l.NextToken()
