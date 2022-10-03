@@ -208,7 +208,7 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 
 	//fmt.Println("2>", p.curToken, p.curToken.Literal) //myx
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
-	if !p.expectPeek(token.EQS) {
+	if !p.expectPeek(token.ASSIGN) {
 		return nil
 	}
 

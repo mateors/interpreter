@@ -4,20 +4,24 @@ const (
 	ILLEGAL TokenType = iota
 	LBR
 	RBR
-	EQS
+	ASSIGN //=
 	//NEWLINE
 	LET
 	RETURN
 	IDENT
 	INTEGAR   //digit
 	SEMICOLON //;
-	PLUS      //+
-	MINUS     //-
-	ASTERISK  //*
-	SLASH     //
-	GT        //>
-	LT        //<
-	BANG      //!
+
+	//OPERATORS
+	PLUS     //+
+	MINUS    //-
+	ASTERISK //*
+	SLASH    //
+	GT       //>
+	LT       //<
+	BANG     //!
+	EQ       //==
+	NOTEQ    //!=
 	EOF
 )
 
