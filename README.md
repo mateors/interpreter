@@ -78,3 +78,55 @@ imagine in which places integer literals can occur to understand why they are ex
 Any expression can follow a prefix operator as operand.
 * `!isGreaterThanZero(2);`
 * `5 + -add(5, 5);`
+
+
+## HOW PRATT PARSING WORKS
+
+> Statement : `1 + 2 * 3`
+
+### STEP-1:
+
+#### ParseProgram()
+    1. parseStatement()
+        1. parseExpressionStatement()
+            1. `parseExpression(LOWEST:1)`
+                1. curToken= 1, peekTone= +, curToken.Type= INTEGAR
+                2. leftExp= parseIntegerLiteral()
+                    leftExp= &ast.IntegerLiteral{Token: {INTEGAR,1}, Value: 1}
+
+                3. precedence=1, peekPrecedence=4, peekToken.Type= PLUS
+                4. infix=parseInfixExpression
+                5. curToken= +, peekTone= 2, curToken.Type= PLUS, peekToken.Type= INTEGAR
+                6. leftExp= `parseInfixExpression(leftExp)`
+                    1. leftExp= `&ast.InfixExpression{
+                                    Token: {PLUS,+} 
+                                    Operator: + 
+                                    Left: &ast.IntegerLiteral{Token: {INTEGAR,1}, Value: 1} 
+                                    Right: ?? 
+                                }`
+
+                    2. precedence=4
+                    3. `NextToken>> curToken= 2, peekTone= *, curToken.Type= INTEGAR, peekToken.Type= ASTERISK`
+                    4. `parseExpression(precedence:4)`
+                        1. prefixFunction=parseIntegerLiteral
+                        2. leftExp= parseIntegerLiteral() 
+                        leftExp= &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2}
+                    5. precedence=4, peekPrecedence=5, peekToken.Type= ASTERISK
+                        1. infix=parseInfixExpression
+                        2. NextToken>> curToken= *, peekTone= 3, curToken.Type= ASTERISK, peekToken.Type= INTEGAR
+                        3. leftExp= parseInfixExpression(leftExp)
+                        leftExp= &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2}
+                        1. &ast.InfixExpression{Token: {ASTERISK,*} Operator: * Left: &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2} Right: ?? }
+                        2. precedence=5
+                        3. NextToken>> curToken= 3, peekTone= , curToken.Type= INTEGAR, peekToken.Type= 
+                        4. Right::parseExpression(precedence:5)
+                                1. prefixFunction=parseIntegerLiteral
+                                2. leftExp= parseIntegerLiteral()
+                                leftExp= &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3}
+                        
+                        5. `&ast.InfixExpression{
+                                Token: {ASTERISK,*} Operator: * 
+                                Left: &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2} 
+                                Right: &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3} 
+                            }`
+                    
