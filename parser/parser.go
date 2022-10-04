@@ -68,30 +68,6 @@ func New(l *lexer.Lexer) *Parser {
 	return p
 }
 
-func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
-
-	iexp := &ast.InfixExpression{}
-	iexp.Token = p.curToken
-	iexp.Operator = p.curToken.Literal
-	iexp.Left = left
-
-	precedence := p.currentPrecedence()
-	p.NextToken()
-	iexp.Right = p.parseExpression(precedence)
-	return iexp
-}
-
-func (p *Parser) parsePrefixExpression() ast.Expression {
-
-	pex := &ast.PrefixExpression{}
-	pex.Token = p.curToken
-	pex.Operator = p.curToken.Literal
-
-	p.NextToken()
-	pex.Right = p.parseExpression(PREFIX)
-	return pex
-}
-
 func (p *Parser) parseIntegerLiteral() ast.Expression {
 
 	//fmt.Println(p.curToken)
@@ -187,6 +163,30 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 		p.NextToken()
 	}
 	return expStm
+}
+
+func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
+
+	iexp := &ast.InfixExpression{}
+	iexp.Token = p.curToken
+	iexp.Operator = p.curToken.Literal
+	iexp.Left = left
+
+	precedence := p.currentPrecedence()
+	p.NextToken()
+	iexp.Right = p.parseExpression(precedence)
+	return iexp
+}
+
+func (p *Parser) parsePrefixExpression() ast.Expression {
+
+	pex := &ast.PrefixExpression{}
+	pex.Token = p.curToken
+	pex.Operator = p.curToken.Literal
+
+	p.NextToken()
+	pex.Right = p.parseExpression(PREFIX)
+	return pex
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
