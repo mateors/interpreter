@@ -109,7 +109,7 @@ func IntegerLiteralExpressionManul() {
 
 func InfixExpressionManul() {
 
-	input := "5 + 5 * 6"
+	input := "1 + 2 * 3;"
 	l := lexer.New(input)
 	// for {
 	// 	tok := l.NextToken()

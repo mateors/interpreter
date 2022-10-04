@@ -84,9 +84,9 @@ Any expression can follow a prefix operator as operand.
 
 > Statement : `1 + 2 * 3`
 
-### STEP-1:
+We are going take a close look at what the parser does as soon as `parseExpressionStatement` is called for the first time.
 
-#### ParseProgram()
+#### ParseProgram() | Here is what happens when we parse `1 + 2 * 3;`
     1. parseStatement()
         1. parseExpressionStatement()
             1. `parseExpression(LOWEST:1)`
