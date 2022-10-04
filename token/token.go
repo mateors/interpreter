@@ -22,6 +22,8 @@ const (
 	BANG     //!
 	EQ       //==
 	NOTEQ    //!=
+	TRUE
+	FALSE
 	EOF
 )
 
@@ -35,6 +37,8 @@ type Token struct {
 var keywords = map[string]TokenType{
 	"let":    LET,
 	"return": RETURN,
+	"true":   TRUE,
+	"false":  FALSE,
 }
 
 func LookupIdentifier(key string) TokenType {
