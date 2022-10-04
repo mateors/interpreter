@@ -121,7 +121,7 @@ Any expression can follow a prefix operator as operand.
                             4. Right::parseExpression(precedence:5)
                                     1. prefixFunction=parseIntegerLiteral
                                     2. leftExp= parseIntegerLiteral()
-                                    leftExp= &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3}
+                                       leftExp= &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3}
                             5. &ast.InfixExpression{
                                     Token: {ASTERISK,*} Operator: * 
                                     Left: &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2} 
