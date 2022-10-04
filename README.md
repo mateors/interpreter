@@ -90,13 +90,13 @@ Any expression can follow a prefix operator as operand.
     1. parseStatement()
         1. parseExpressionStatement()
             1. `parseExpression(LOWEST:1)`
-                1. curToken= 1, peekTone= +, curToken.Type= INTEGAR
+                1. curToken= 1, peekToken= +, curToken.Type= INTEGAR
                 2. leftExp= parseIntegerLiteral()
                     leftExp= &ast.IntegerLiteral{Token: {INTEGAR,1}, Value: 1}
 
                 3. precedence=1, peekPrecedence=4, peekToken.Type= PLUS
                 4. infix=parseInfixExpression
-                5. curToken= +, peekTone= 2, curToken.Type= PLUS, peekToken.Type= INTEGAR
+                5. NextToken>> curToken= +, peekTone= 2, curToken.Type= PLUS, peekToken.Type= INTEGAR
                 6. leftExp= `parseInfixExpression(leftExp)`
                     1. leftExp= `&ast.InfixExpression{
                                     Token: {PLUS,+} 
@@ -124,9 +124,9 @@ Any expression can follow a prefix operator as operand.
                                 2. leftExp= parseIntegerLiteral()
                                 leftExp= &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3}
                         
-                        5. `&ast.InfixExpression{
+                        5. &ast.InfixExpression{
                                 Token: {ASTERISK,*} Operator: * 
                                 Left: &ast.IntegerLiteral{Token: {INTEGAR,2}, Value: 2} 
                                 Right: &ast.IntegerLiteral{Token: {INTEGAR,3}, Value: 3} 
-                            }`
+                            }
                     
